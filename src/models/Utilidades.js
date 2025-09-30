@@ -5,7 +5,7 @@ export const Utilidades = sequelize.define(
   'utilities',
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    periodo: { type: DataTypes.DATE },
+    periodo: { type: DataTypes.DATEONLY },
     mensualidad_mensual: { type: DataTypes.DECIMAL(10, 2) },
     meta_mensual: { type: DataTypes.DECIMAL(10, 2) },
     utilidades_acumuladas: { type: DataTypes.DECIMAL(10, 2) },
