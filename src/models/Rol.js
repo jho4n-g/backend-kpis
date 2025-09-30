@@ -1,8 +1,8 @@
-import { DataTypes } from "sequelize"
-import { sequelize } from "../config/database.js"
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/database.js';
 
 export const Rol = sequelize.define(
-  "roles",
+  'roles',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -23,7 +23,7 @@ export const Rol = sequelize.define(
     },
   },
   {
-    tableName: "roles",
+    tableName: 'roles',
     timestamps: false,
   }
-)
+);
