@@ -1,3 +1,5 @@
+import { sequelize } from '../config/database.js';
+
 import { User } from './User.js';
 import { Person } from './Person.js';
 import { Rol } from './Rol.js';
@@ -5,6 +7,10 @@ import { Permisos } from './Permisos.js';
 import { Seccion } from './Seccion.js';
 import { Area } from './Area.js';
 import { Utilidades } from './Utilidades.js';
+import { Gestion } from './gestion.js';
+import { Mes } from './mes.js';
+import { IngresoVentasTotales } from './IngresoVentasTotales.js';
+import { VentasTotales } from './ventasTotales.js';
 
 // 🔹 Relación User ↔ Person (1:1)
 User.hasOne(Person, { foreignKey: 'fk_user_person', as: 'person' });
@@ -26,4 +32,53 @@ Person.belongsTo(Seccion, { foreignKey: 'fk_seccion_person', as: 'seccion' });
 Area.hasMany(Seccion, { foreignKey: 'fk_area', as: 'secciones' });
 Seccion.belongsTo(Area, { foreignKey: 'fk_area', as: 'area' });
 
-export { User, Person, Rol, Permisos, Seccion, Area, Utilidades };
+// --- Gestion ↔ Mes (1:N)  (USA alias únicos)
+Gestion.hasMany(Mes, {
+  as: 'mesesGestion',
+  foreignKey: 'fk_gestion_mes',
+  sourceKey: 'id_gestion',
+  onDelete: 'CASCADE',
+});
+Mes.belongsTo(Gestion, {
+  as: 'gestion',
+  foreignKey: 'fk_gestion_mes',
+  targetKey: 'id_gestion',
+});
+
+Mes.hasOne(IngresoVentasTotales, {
+  as: 'ingresoVentas',
+  foreignKey: 'mes_id',
+  onDelete: 'CASCADE',
+});
+
+IngresoVentasTotales.belongsTo(Mes, {
+  as: 'mes',
+  foreignKey: 'mes_id',
+});
+
+//ventas_totales
+Mes.hasOne(VentasTotales, {
+  as: 'ventasTotalesMes',
+  foreignKey: 'mes_id',
+  onDelete: 'CASCADE',
+});
+
+VentasTotales.belongsTo(Mes, {
+  as: 'mesVentasTotales',
+  foreignKey: 'mes_id',
+});
+
+export {
+  sequelize,
+  User,
+  Person,
+  Rol,
+  Permisos,
+  Seccion,
+  Area,
+  Utilidades,
+  IngresoVentasTotales,
+  Gestion,
+  Mes,
+  VentasTotales,
+};

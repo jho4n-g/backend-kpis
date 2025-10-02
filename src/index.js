@@ -18,6 +18,8 @@ import utilitesRoutes from './routes/uilities.routes.js';
 import IngresosVentasTotalesRoutes from './routes/IngresosVentasTotales.routes.js';
 import getionRoutes from './routes/gestion.route.js';
 import MesRoutes from './routes/mes.routes.js';
+import libsRoutes from './routes/lisbs.routes.js';
+import VentasTotales from './routes/ventasTotales.route.js';
 // Importar modelos y asociaciones
 import './models/index.js';
 
@@ -61,6 +63,8 @@ app.use('/api/utlities', utilitesRoutes);
 app.use('/api/ingresosVentasTotales', IngresosVentasTotalesRoutes);
 app.use('/api/gestion', getionRoutes);
 app.use('/api/mes', MesRoutes);
+app.use('/api/libs', libsRoutes);
+app.use('/api/ventasTotales', VentasTotales);
 
 // Middleware de manejo de errores global
 app.use((err, req, res, next) => {
@@ -78,11 +82,8 @@ let server;
 async function startServer() {
   try {
     await connectDB();
-    console.log('✅ Base de datos conectada correctamente');
-
-    // OJO: alter true es útil en dev, peligroso en prod
     await sequelize.sync({ alter: true });
-    console.log('✅ Tablas sincronizadas correctamente');
+    console.log('✅ Base de datos conectada correctamente');
 
     server = app.listen(PORT, () => {
       console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
@@ -115,10 +116,7 @@ process.on('SIGINT', async () => {
     stopGestionScheduler();
     if (server) await new Promise((res) => server.close(res));
     await sequelize.close(); // cierra pool SQL
-    if (mongoose?.connection?.close) {
-      // si usas Mongo
-      await mongoose.connection.close();
-    }
+    console.log('✅ Conexión a PostgreSQL cerrada');
     process.exit(0);
   } catch (e) {
     console.error('❌ Error al cerrar:', e);

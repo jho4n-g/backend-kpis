@@ -29,15 +29,3 @@ export const Mes = sequelize.define(
     },
   }
 );
-Gestion.hasMany(Mes, {
-  as: 'meses',
-  foreignKey: 'fk_gestion_mes',
-  sourceKey: 'id_gestion',
-  onDelete: 'CASCADE',
-});
-
-Mes.belongsTo(Gestion, {
-  as: 'gestion',
-  foreignKey: 'fk_gestion_mes',
-  targetKey: 'id_gestion',
-});
