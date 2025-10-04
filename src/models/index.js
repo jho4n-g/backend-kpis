@@ -11,6 +11,7 @@ import { Gestion } from './gestion.js';
 import { Mes } from './mes.js';
 import { IngresoVentasTotales } from './IngresoVentasTotales.js';
 import { VentasTotales } from './ventasTotales.js';
+import { PrecioUnitario } from './precioUnitario.js';
 
 // 🔹 Relación User ↔ Person (1:1)
 User.hasOne(Person, { foreignKey: 'fk_user_person', as: 'person' });
@@ -68,6 +69,17 @@ VentasTotales.belongsTo(Mes, {
   foreignKey: 'mes_id',
 });
 
+Mes.hasOne(PrecioUnitario, {
+  as: 'precioUnitarioMes',
+  foreignKey: 'mes_id',
+  onDelete: 'CASCADE',
+});
+
+PrecioUnitario.belongsTo(Mes, {
+  as: 'mesPrecioUnitarios',
+  foreignKey: 'mes_id',
+});
+
 export {
   sequelize,
   User,
@@ -81,4 +93,5 @@ export {
   Gestion,
   Mes,
   VentasTotales,
+  PrecioUnitario,
 };

@@ -59,14 +59,14 @@ async function recomputeGestionFromMonth(gestionId, startNumero, t) {
     presAcu += PresMen;
     venAcu += VentMen;
 
-    const DifVentMenvsPre = VentMen - PresMen; // conserva signo
+    const DifVentaMenvsPreMen = VentMen - PresMen; // conserva signo
     const DiffVentaAcuvsPresAcu = venAcu - presAcu; // conserva signo
     const CumMen = safeDiv(VentMen, PresMen); // 0..1
     const CumAcu = safeDiv(venAcu, presAcu); // 0..1
 
     await r.update(
       {
-        DifVentMenvsPre,
+        DifVentaMenvsPreMen,
         VenAcu: venAcu,
         PresAcu: presAcu,
         DiffVentaAcuvsPresAcu,
@@ -284,11 +284,64 @@ export const listobjVentas = async (req, res) => {
         ],
         order: [['startYear', 'DESC']],
       });
+
       return { data };
     });
+
     res.status(201).json(result.data);
   } catch (e) {
     console.error('Error:', e.message);
     res.status(500).json({ message: e.message });
+  }
+};
+
+export const ObtenerPeriodo = async (req, res) => {
+  try {
+    const result = await sequelize.transaction(async (t) => {
+      const gestion = await Gestion.findOne({
+        where: { is_archived: false },
+        order: [['startYear', 'DESC']],
+        transaction: t,
+      });
+
+      if (!gestion) throw new Error('No hay gestión vigente');
+      // Antes de ejecutar la query, verifica:
+
+      // 2) Buscar mes libre
+      const row = await sequelize.query(
+        `
+            SELECT m.id_mes, m.numero, m.periodo
+            FROM mes m
+            WHERE m.fk_gestion_mes = :gid
+              AND NOT EXISTS (
+                SELECT 1
+                FROM ventas_totales ivt
+                WHERE ivt.mes_id = m.id_mes
+              )
+            ORDER BY m.numero
+            FOR UPDATE SKIP LOCKED
+            LIMIT 1;
+            `,
+        {
+          type: QueryTypes.SELECT,
+          transaction: t,
+          replacements: { gid: gestion.id_gestion },
+        }
+      );
+
+      return { row, gestion };
+    });
+
+    if (!result.row) {
+      return res.status(404).json({ message: 'No hay gestión vigente' });
+    }
+    const date = {
+      periodo: result.row[0].periodo,
+    };
+
+    return res.status(200).json(date);
+  } catch (e) {
+    console.error('Error:', e);
+    return res.status(500).json({ message: e.message });
   }
 };

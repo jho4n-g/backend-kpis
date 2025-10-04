@@ -20,6 +20,7 @@ import getionRoutes from './routes/gestion.route.js';
 import MesRoutes from './routes/mes.routes.js';
 import libsRoutes from './routes/lisbs.routes.js';
 import VentasTotales from './routes/ventasTotales.route.js';
+import PrecioUnitario from './routes/precioUnitario.route.js';
 // Importar modelos y asociaciones
 import './models/index.js';
 
@@ -65,6 +66,7 @@ app.use('/api/gestion', getionRoutes);
 app.use('/api/mes', MesRoutes);
 app.use('/api/libs', libsRoutes);
 app.use('/api/ventasTotales', VentasTotales);
+app.use('/api/precioUnitario', PrecioUnitario);
 
 // Middleware de manejo de errores global
 app.use((err, req, res, next) => {
