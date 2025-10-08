@@ -12,6 +12,13 @@ import { Mes } from './mes.js';
 import { IngresoVentasTotales } from './IngresoVentasTotales.js';
 import { VentasTotales } from './ventasTotales.js';
 import { PrecioUnitario } from './precioUnitario.js';
+import { Produccion } from './produccion.js';
+import { Calidad } from './calidad.js';
+
+//review
+import { Disponibilidad } from './disponibilidaLinea.js';
+import { GeneracionResiduosSolidos } from './generacionResiduosSolidos.js';
+import { IndicePolvoAtomizado } from './indicePolvoAtomizado.js';
 
 // 🔹 Relación User ↔ Person (1:1)
 User.hasOne(Person, { foreignKey: 'fk_user_person', as: 'person' });
@@ -80,6 +87,62 @@ PrecioUnitario.belongsTo(Mes, {
   foreignKey: 'mes_id',
 });
 
+Mes.hasOne(Produccion, {
+  as: 'produccionMes',
+  foreignKey: 'mes_id',
+  onDelete: 'CACADE',
+});
+Produccion.belongsTo(Mes, {
+  as: 'mesProduccion',
+  foreignKey: 'mes_id',
+});
+
+Mes.hasOne(Calidad, {
+  as: 'calidadMes',
+  foreignKey: 'mes_id',
+  onDelete: 'CASCADE',
+});
+
+Calidad.belongsTo(Mes, {
+  as: 'mesCalidad',
+  foreignKey: 'mes_id',
+  onDelete: 'CASCADE',
+});
+//reviw
+Mes.hasOne(Disponibilidad, {
+  as: 'disponibilidadMes',
+  foreignKey: 'mes_id',
+  onDelete: 'CASCADE',
+});
+Disponibilidad.belongsTo(Mes, {
+  as: 'mesDisponibilidad',
+  foreignKey: 'mes_id',
+  onDelete: 'CASCADE',
+});
+
+Mes.hasOne(GeneracionResiduosSolidos, {
+  as: 'generacionResiduosSolidosMes',
+  foreignKey: 'mes_id',
+  onDelete: 'CASCADE',
+});
+GeneracionResiduosSolidos.belongsTo(Mes, {
+  as: 'mesGeneracionResiduosSolidos',
+  foreignKey: 'mes_id',
+  onDelete: 'CASCADE',
+});
+
+Mes.hasOne(IndicePolvoAtomizado, {
+  as: 'indicePolvoAtomizadoMes',
+  foreignKey: 'mes_id',
+  onDelete: 'CASCADE',
+});
+
+IndicePolvoAtomizado.belongsTo(Mes, {
+  as: 'mesIndicePolvoAtomizado',
+  foreignKey: 'mes_id',
+  onDelete: 'CASCADE',
+});
+
 export {
   sequelize,
   User,
@@ -94,4 +157,9 @@ export {
   Mes,
   VentasTotales,
   PrecioUnitario,
+  Produccion,
+  Calidad,
+  Disponibilidad,
+  GeneracionResiduosSolidos,
+  IndicePolvoAtomizado,
 };

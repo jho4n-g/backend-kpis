@@ -21,6 +21,8 @@ import MesRoutes from './routes/mes.routes.js';
 import libsRoutes from './routes/lisbs.routes.js';
 import VentasTotales from './routes/ventasTotales.route.js';
 import PrecioUnitario from './routes/precioUnitario.route.js';
+import ProduccionRoutes from './routes/produccion.route.js';
+import CalidadRoutes from './routes/calidad.routes.js';
 // Importar modelos y asociaciones
 import './models/index.js';
 
@@ -67,6 +69,8 @@ app.use('/api/mes', MesRoutes);
 app.use('/api/libs', libsRoutes);
 app.use('/api/ventasTotales', VentasTotales);
 app.use('/api/precioUnitario', PrecioUnitario);
+app.use('/api/produccion', ProduccionRoutes);
+app.use('/api/calidad', CalidadRoutes);
 
 // Middleware de manejo de errores global
 app.use((err, req, res, next) => {
