@@ -14,6 +14,7 @@ import rolRoutes from './routes/rol.routes.js';
 import permisosRoutes from './routes/permisos.routes.js';
 import seccionRoutes from './routes/seccion.routes.js';
 import areaRoutes from './routes/area.routes.js';
+//tablas
 import utilitesRoutes from './routes/uilities.routes.js';
 import IngresosVentasTotalesRoutes from './routes/IngresosVentasTotales.routes.js';
 import getionRoutes from './routes/gestion.route.js';
@@ -23,6 +24,8 @@ import VentasTotales from './routes/ventasTotales.route.js';
 import PrecioUnitario from './routes/precioUnitario.route.js';
 import ProduccionRoutes from './routes/produccion.route.js';
 import CalidadRoutes from './routes/calidad.routes.js';
+import DesponiblidadRoutes from './routes/disponibilidad.routes.js';
+
 // Importar modelos y asociaciones
 import './models/index.js';
 
@@ -71,6 +74,7 @@ app.use('/api/ventasTotales', VentasTotales);
 app.use('/api/precioUnitario', PrecioUnitario);
 app.use('/api/produccion', ProduccionRoutes);
 app.use('/api/calidad', CalidadRoutes);
+app.use('/api/disponibilidad', DesponiblidadRoutes);
 
 // Middleware de manejo de errores global
 app.use((err, req, res, next) => {

@@ -19,7 +19,7 @@ export const Disponibilidad = sequelize.define(
       allowNull: false,
       field: 'nro_horas_proactiva_planificadas',
     },
-    nroHorasParadasLienaB: {
+    nroHorasParadasLineaB: {
       type: DataTypes.DECIMAL(18, 2),
       allowNull: false,
       field: 'nro_horas_paradas_linea_b',
@@ -33,6 +33,11 @@ export const Disponibilidad = sequelize.define(
       type: DataTypes.DECIMAL(18, 2),
       allowNull: false,
       field: 'nro_horas_paradas_linea_d',
+    },
+    disponibilidadLineaB: {
+      type: DataTypes.DECIMAL(18, 2),
+      allowNull: false,
+      field: 'disponibilidad_linea_b',
     },
     disponibilidadLineaC: {
       type: DataTypes.DECIMAL(18, 2),
