@@ -1,29 +1,15 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/database.js';
-
-export const Rol = sequelize.define(
-  'roles',
+export const Role = sequelize.define(
+  'Role',
   {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     nombre_rol: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(60),
       allowNull: false,
       unique: true,
     },
-    descripcion_rol: {
-      type: DataTypes.STRING(255),
-    },
-    fk_permisos_rol: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+    descripcion_rol: { type: DataTypes.STRING(255) },
   },
-  {
-    tableName: 'roles',
-    timestamps: false,
-  }
+  { tableName: 'roles', underscored: true, timestamps: false }
 );

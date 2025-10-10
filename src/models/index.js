@@ -2,9 +2,9 @@ import { sequelize } from '../config/database.js';
 
 import { User } from './User.js';
 import { Person } from './Person.js';
-import { Rol } from './Rol.js';
-import { Permisos } from './Permisos.js';
-import { Seccion } from './Seccion.js';
+import { Role } from './Rol.js';
+import { Permission } from './Permisos.js';
+import { Section } from './Seccion.js';
 import { Area } from './Area.js';
 import { Utilidades } from './Utilidades.js';
 import { Gestion } from './gestion.js';
@@ -24,24 +24,29 @@ import { GeneracionResiduosSolidos } from './generacionResiduosSolidos.js';
 import { IndicePolvoAtomizado } from './indicePolvoAtomizado.js';
 
 // 🔹 Relación User ↔ Person (1:1)
-User.hasOne(Person, { foreignKey: 'fk_user_person', as: 'person' });
-Person.belongsTo(User, { foreignKey: 'fk_user_person', as: 'user' });
+// Role <-> Permission (N:M)
+Role.belongsToMany(Permission, {
+  through: 'roles_permisos',
+  foreignKey: 'fk_rol',
+  otherKey: 'fk_permiso',
+});
+Permission.belongsToMany(Role, {
+  through: 'roles_permisos',
+  foreignKey: 'fk_permiso',
+  otherKey: 'fk_rol',
+});
 
-// 🔹 Relación Rol ↔ Person (1:N)
-Rol.hasMany(Person, { foreignKey: 'fk_rol_person', as: 'persons' });
-Person.belongsTo(Rol, { foreignKey: 'fk_rol_person', as: 'rol' });
-
-// 🔹 Relación Permisos ↔ Rol (1:N)
-Permisos.hasMany(Rol, { foreignKey: 'fk_permisos_rol', as: 'roles' });
-Rol.belongsTo(Permisos, { foreignKey: 'fk_permisos_rol', as: 'permisos' });
-
-// 🔹 Relación Seccion ↔ Person (1:N)
-Seccion.hasMany(Person, { foreignKey: 'fk_seccion_person', as: 'persons' });
-Person.belongsTo(Seccion, { foreignKey: 'fk_seccion_person', as: 'seccion' });
-
-// 🔹 Relación Area ↔ Seccion (1:N)
-Area.hasMany(Seccion, { foreignKey: 'fk_area', as: 'secciones' });
-Seccion.belongsTo(Area, { foreignKey: 'fk_area', as: 'area' });
+// Person <-> Role (N:M) — si aplica
+Person.belongsToMany(Role, {
+  through: 'person_roles',
+  foreignKey: 'fk_person',
+  otherKey: 'fk_rol',
+});
+Role.belongsToMany(Person, {
+  through: 'person_roles',
+  foreignKey: 'fk_rol',
+  otherKey: 'fk_person',
+});
 
 // --- Gestion ↔ Mes (1:N)  (USA alias únicos)
 Gestion.hasMany(Mes, {
@@ -168,12 +173,6 @@ IndicePolvoAtomizado.belongsTo(Mes, {
 
 export {
   sequelize,
-  User,
-  Person,
-  Rol,
-  Permisos,
-  Seccion,
-  Area,
   Utilidades,
   IngresoVentasTotales,
   Gestion,

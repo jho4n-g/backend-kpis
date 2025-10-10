@@ -1,25 +1,21 @@
-import { DataTypes } from "sequelize"
-import { sequelize } from "../config/database.js"
+// models/permission.js
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/database.js';
 
-export const Permisos = sequelize.define(
-  "permisos",
+export const Permission = sequelize.define(
+  'Permission',
   {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    nombre_permiss: {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    nombre_permiso: {
       type: DataTypes.STRING(100),
       allowNull: false,
       unique: true,
-    },
-    descripcion_permiss: {
-      type: DataTypes.STRING(255),
-    },
+    }, // ej: "users:create"
+    descripcion_permiso: { type: DataTypes.STRING(255) },
   },
   {
-    tableName: "permisos",
+    tableName: 'permissions',
+    underscored: true,
     timestamps: false,
   }
-)
+);

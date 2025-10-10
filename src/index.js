@@ -8,13 +8,6 @@ import {
   stopGestionScheduler,
 } from './jobs/gestionJobs.js';
 
-import userRoutes from './routes/user.routes.js';
-import personRoutes from './routes/person.routes.js';
-import rolRoutes from './routes/rol.routes.js';
-import permisosRoutes from './routes/permisos.routes.js';
-import seccionRoutes from './routes/seccion.routes.js';
-import areaRoutes from './routes/area.routes.js';
-//tablas
 import utilitesRoutes from './routes/uilities.routes.js';
 import IngresosVentasTotalesRoutes from './routes/IngresosVentasTotales.routes.js';
 import getionRoutes from './routes/gestion.route.js';
@@ -61,12 +54,6 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use('/api/users', userRoutes);
-app.use('/api/persons', personRoutes);
-app.use('/api/roles', rolRoutes);
-app.use('/api/permisos', permisosRoutes);
-app.use('/api/secciones', seccionRoutes);
-app.use('/api/areas', areaRoutes);
 app.use('/api/utlities', utilitesRoutes);
 app.use('/api/ingresosVentasTotales', IngresosVentasTotalesRoutes);
 app.use('/api/gestion', getionRoutes);
