@@ -17,6 +17,9 @@ import { Calidad } from './calidad.js';
 
 //review
 import { Disponibilidad } from './disponibilidaLinea.js';
+import { ReciboItem } from './GeneracionResiduoSolidos/ReciboItem.js';
+import { Producto } from './GeneracionResiduoSolidos/producto.js';
+import { Recibo } from './GeneracionResiduoSolidos/recibo.js';
 import { GeneracionResiduosSolidos } from './generacionResiduosSolidos.js';
 import { IndicePolvoAtomizado } from './indicePolvoAtomizado.js';
 
@@ -108,7 +111,6 @@ Calidad.belongsTo(Mes, {
   foreignKey: 'mes_id',
   onDelete: 'CASCADE',
 });
-//reviw
 Mes.hasOne(Disponibilidad, {
   as: 'disponibilidadMes',
   foreignKey: 'mes_id',
@@ -119,6 +121,27 @@ Disponibilidad.belongsTo(Mes, {
   foreignKey: 'mes_id',
   onDelete: 'CASCADE',
 });
+//reviw
+// 1:N  Recibo -> ReciboItem
+Recibo.hasMany(ReciboItem, {
+  as: 'items',
+  foreignKey: 'recibo_id',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+ReciboItem.belongsTo(Recibo, { as: 'recibo', foreignKey: 'recibo_id' });
+
+// 1:N  Producto -> ReciboItem
+Producto.hasMany(ReciboItem, {
+  as: 'detalles',
+  foreignKey: 'producto_id',
+  onDelete: 'RESTRICT',
+  onUpdate: 'CASCADE',
+});
+
+ReciboItem.belongsTo(Producto, { as: 'producto', foreignKey: 'producto_id' });
+
+//sh
 
 Mes.hasOne(GeneracionResiduosSolidos, {
   as: 'generacionResiduosSolidosMes',
@@ -162,4 +185,7 @@ export {
   Disponibilidad,
   GeneracionResiduosSolidos,
   IndicePolvoAtomizado,
+  Producto,
+  Recibo,
+  ReciboItem,
 };

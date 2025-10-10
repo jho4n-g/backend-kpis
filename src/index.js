@@ -25,6 +25,8 @@ import PrecioUnitario from './routes/precioUnitario.route.js';
 import ProduccionRoutes from './routes/produccion.route.js';
 import CalidadRoutes from './routes/calidad.routes.js';
 import DesponiblidadRoutes from './routes/disponibilidad.routes.js';
+import ProductoRoutes from './routes/generacionResiduo/producto.routes.js';
+import ReciboRoutes from './routes/recibo.routes.js';
 
 // Importar modelos y asociaciones
 import './models/index.js';
@@ -75,6 +77,8 @@ app.use('/api/precioUnitario', PrecioUnitario);
 app.use('/api/produccion', ProduccionRoutes);
 app.use('/api/calidad', CalidadRoutes);
 app.use('/api/disponibilidad', DesponiblidadRoutes);
+app.use('/api/producto', ProductoRoutes);
+app.use('/api/recibo', ReciboRoutes);
 
 // Middleware de manejo de errores global
 app.use((err, req, res, next) => {
